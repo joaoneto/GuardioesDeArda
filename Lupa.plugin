@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Plugin>
+	<Information>
+		<Name>Lupa</Name>
+		<Author>João Neto</Author>
+		<Version>1.0.0</Version>
+		<!-- <Image>GuardioesDeArda/Lupa/Resources/lupa_logo.tga</Image> -->
+		<Description>
+GuargioesDeArda - Lupa
+- Gerenciador de busca de grupos LFF
+		</Description>
+	</Information>
+	<Package>GuardioesDeArda.Lupa.Main</Package>
+</Plugin>
