@@ -109,7 +109,7 @@ function parseMessage( str )
             -- find instance ie: [am, foKd, ad, stairs]
             elseif ( instanceEnum[value] ) then
                 -- print( "find role " .. value );
-                tbl.instance = instances[value].name;
+                tbl.instance = value;
             end
         end
         prev = value;
