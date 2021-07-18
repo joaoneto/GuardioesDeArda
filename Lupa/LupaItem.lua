@@ -1,5 +1,5 @@
 SPACING = 15;
-LINE_HEIGHT = 24;
+LINE_HEIGHT = 18;
 ICON_SIZE = 48;
 ROW_HEIGHT = ICON_SIZE + ( SPACING * 2 );
 ROW_WIDTH = 640 - ( SPACING * 2 );
@@ -8,6 +8,15 @@ LupaItem = class( Turbine.UI.Control );
 
 function LupaItem:Constructor( data )
 	Turbine.UI.Control.Constructor( self );
+	
+	self.data = {};
+	self.data.channel = data.channel;
+	self.data.owner = tostring( data.owner );
+	self.data.count = data.count;
+	self.data.instanceName = ( instances[data.instance] and instances[data.instance].name or data.instance );
+	self.data.tiers = data.tiers;
+	self.data.roles = data.roles;
+	self.data.level = data.level;
 
 	self:SetBlendMode( Turbine.UI.BlendMode.Overlay );
 
@@ -15,18 +24,31 @@ function LupaItem:Constructor( data )
     self.icon:SetParent( self );
     self.icon:SetSize( ICON_SIZE, ICON_SIZE );
     self.icon:SetPosition( SPACING, SPACING );
-	-- self.icon:SetBackground( "GuardioesDeArda/Lupa/Resources/ad_thumb.tga" );
-	self.icon:SetBackground( instances[data.instance] and instances[data.instance].thumbnail or "GuardioesDeArda/Lupa/Resources/ad_thumb.tga" );
+	-- @TODO: add more background images
+	self.icon:SetBackground(
+		instances[data.instance] and instances[data.instance].thumbnail
+		or "GuardioesDeArda/Lupa/Resources/ad_thumb.tga"
+	);
 
 	self.nameLabel = Turbine.UI.Label();
 	self.nameLabel:SetParent( self );
-	self.nameLabel:SetText( instances[data.instance] and instances[data.instance].name or data.instance );
+	self.nameLabel:SetText( self.data.instanceName );
 	self.nameLabel:SetPosition( ICON_SIZE + ( SPACING * 2 ), SPACING );
 
 	self.nameLabel2 = Turbine.UI.Label();
 	self.nameLabel2:SetParent( self );
-	self.nameLabel2:SetText( data.owner .. " - " .. data.tiers .. " - " .. data.count );
-	self.nameLabel2:SetPosition( ICON_SIZE + ( SPACING * 2 ), LINE_HEIGHT + SPACING );
+	self.nameLabel2:SetText( self.data.owner );
+	self.nameLabel2:SetPosition( ICON_SIZE + ( SPACING * 2 ), SPACING + LINE_HEIGHT );
+
+	self.nameLabel3 = Turbine.UI.Label();
+	self.nameLabel3:SetParent( self );
+	self.nameLabel3:SetText(
+		( ( self.data.tiers and self.data.tiers .. " - " ) or "" )
+		.. ( ( self.data.roles and self.data.roles .. " - " ) or "" )
+		.. ( ( self.data.level and self.data.level .. " - " ) or "" )
+		.. ( self.data.count or "" )
+	);
+	self.nameLabel3:SetPosition( ICON_SIZE + ( SPACING * 2 ), SPACING + ( LINE_HEIGHT * 2 ) );
 
 	self.chatSend = Turbine.UI.Lotro.Quickslot();
 	self.chatSend:SetParent( self );
@@ -36,7 +58,7 @@ function LupaItem:Constructor( data )
 	self.chatSend:SetZOrder( 1 );
 
 	self.chatSendShortcut = Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Alias, nil );
-	self.chatSendShortcut:SetData( "/say Teste" );
+	self.chatSendShortcut:SetData( "/tell " .. self.data.owner .. " x" );
 
 	self.chatSend:SetShortcut( self.chatSendShortcut );
 
@@ -78,6 +100,7 @@ function LupaItem:Layout()
 	
 	self.nameLabel:SetSize( width - self.nameLabel:GetLeft(), LINE_HEIGHT );
 	self.nameLabel2:SetSize( width - self.nameLabel2:GetLeft(), LINE_HEIGHT );
+	self.nameLabel3:SetSize( width - self.nameLabel2:GetLeft(), LINE_HEIGHT );
 end
 
 function LupaItem:SizeChanged()

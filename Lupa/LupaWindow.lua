@@ -23,7 +23,6 @@ function LupaWindow:Constructor()
 	self.lupaList:SetVerticalScrollBar( self.verticalScrollbar );
 
 	self:Update();
-	self:Layout();
 end
 
 function LupaWindow:Update()
@@ -37,6 +36,8 @@ function LupaWindow:Update()
 		local item = LupaItem( data );
 		self.lupaList:AddItem( item, self.lupaList:GetItemCount() - 1 );
 	end
+
+	self:Layout();
 end
 
 function LupaWindow:Layout()

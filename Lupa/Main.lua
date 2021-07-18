@@ -1,3 +1,4 @@
+-- https://www.tutorialspoint.com/execute_lua_online.php
 import "Turbine";
 
 import "GuardioesDeArda.Lupa";
@@ -7,7 +8,7 @@ LockSettings = {
     window = {
         left = 840,
         top = 300,
-        width = 640,
+        width = 540,
         height = 400,
     },
 };
@@ -15,8 +16,6 @@ LockSettings = {
 lffList = {};
 
 lupa = LupaWindow();
-lupa:SetVisible( true );
-
 
 -- INI Utils ------------------------------------------------------------------------------------------------
 function strsplit( str, sep )
@@ -47,6 +46,77 @@ function allmatching( tbl, kvs )
         return key, row;
     end, tbl, nil
 end
+
+function striptag( str )
+    str = str or "";
+    return str:gsub( ".+>(.+)<.+", "%1" )
+end
+
+-- @TODO Remove message width timieout
+-- @TODO Implement multi instance like:
+-- [LFF]   Curl:  1/3   Woe/Ago  T3
+
+-- channel owner  count instance tiers roles       level
+-- [LFF]   Curl:  2/3   AM       t2/t4
+-- [LFF]   Curl:  2/3   AM       .     tank/healer
+-- [LFF]   Curl:  2/3   AM       .     .           100+
+-- [LFF]   Curl:  full  AM
+function parseMessage( str )
+    local tbl = {};
+
+    -- [LFF] <rgb=#00ff00>Curl</rgb>: '2/3 AM t1'
+    -- LFF Curl 2/3 AM t1
+    local normalizedMessage = string.gsub( str, "%[(.*)%] %<.*%>(.*)%<.*%>: '(.*)'", "%1 %2 %3" );
+    local splittedMessage = strsplit( normalizedMessage );
+    
+    tbl.channel = splittedMessage[1];
+    tbl.owner = splittedMessage[2];
+    tbl.full = false;
+
+    local prev;
+    for key, value in pairs(splittedMessage) do
+        value = string.lower( value );
+        -- and not string.match( value, "l[v]?[^eve]?l" )
+        if ( key > 2 ) then
+            -- find full ie: [full, fulled, fill, filled]
+            if ( string.match( value, "f[iu]ll[^ed]?" ) ) then
+                -- print( "find full" );
+                tbl.full = true;
+            -- find tiers ie: [t1, T1/t2, t2/T1/t2]
+            elseif ( string.match( value, "^[t]%d" ) ) then
+                -- print( "find tiers " .. value );
+                tbl.tiers = value; 
+            -- find level ie: [lvl20, level 58+, 130+]
+            elseif ( string.match( prev, "l[v]?[^eve]?l" ) or string.match( value, "l[v]?[^eve]?l%d+[+]?" ) ) then
+                -- print( "find level " .. value );
+                tbl.level = value;
+            -- find count ie: [2/3, 1/12]
+            elseif ( string.match( value, "%d+/%d+" ) and not string.match( prev, "l[v]?[^eve]?l" ) ) then
+                -- print( "find count " .. value );
+                tbl.count = value;
+            -- find role ie: [healer tank dps]
+            elseif (
+                string.match( value, "heal[^er]?" )
+                or string.match( value, "t[^ank]" )
+                or string.match( value, "dps" )
+                or string.match( value, "hunter" )
+                or string.match( value, "rk" )
+                or string.match( value, "lm" )
+            ) then
+                -- print( "find role " .. value );
+                tbl.roles = ( tbl.roles or "" ) .. ", " .. value;
+                tbl.roles = string.gsub( tbl.roles, "^[,/%s]?(.*)[,/%s]?$", "%1" );
+            -- find instance ie: [am, foKd, ad, stairs]
+            elseif ( instanceEnum[value] ) then
+                -- print( "find role " .. value );
+                tbl.instance = instances[value].name;
+            end
+        end
+        prev = value;
+    end
+
+    return tbl;
+end
 -- END Utils ------------------------------------------------------------------------------------------------
 
 
@@ -55,61 +125,59 @@ function HandleReceivedMessage( sender, args )
 		return;
 	end
 
-    -- @TODO Implement multi instance like:
-    -- [LFF]   Curl:  1/3   Woe/Ago  T3
+    local normalizedMessage = string.gsub( args.Message, "%[(.*)%] %<.*%>(.*)%<.*%>: '(.*)'", "%1 %2 %3" );
+    local msgTable = parseMessage( normalizedMessage );
 
-    -- channel owner  count instance tiers roles       level
-    -- [LFF]   Curl:  2/3   AM       t2/t4
-    -- [LFF]   Curl:  2/3   AM       .     tank/healer
-    -- [LFF]   Curl:  2/3   AM       .     .           100+
-    -- [LFF]   Curl:  full  AM
-
-    local parsedString = strsplit( args.Message );
-    local owner = parsedString[2] and parsedString[2]:gsub( "%:", "" ) or "n/a";
-
-    -- lupa:Update();
-
-    -- Delete filled LFF call
-    if ( parsedString[3] == "full" ) then
-        lffList[owner] = nil;
+    -- delete filled LFF call
+    if ( msgTable.full ) then
+        lffList[msgTable.owner] = nil;
         lupa:Update();
 
-        Turbine.Shell.WriteLine( "<rgb=#FF9900>Full " .. owner .. "</rgb>" );
         return;
     end
 
-    -- Update LFF call
-    lffList[owner] = {
-        channel = parsedString[1] and parsedString[1]:gsub( "([%.]+)", "n/a" ) or "n/a",
-        owner = owner,
-        count = parsedString[3] and parsedString[3]:gsub( "([%.]+)", "n/a" ) or parsedString[3],
-        instance = parsedString[4] and parsedString[4]:gsub( "([%.]+)", "n/a" ) or parsedString[4],
-        tiers = parsedString[5] and parsedString[5]:gsub( "([%.]+)", "n/a" ) or "n/a",
-        roles = parsedString[6] and parsedString[6]:gsub( "([%.]+)", "n/a" ) or "n/a",
-        level = parsedString[7] and parsedString[7]:gsub( "([%.]+)", "n/a" ) or "n/a",
-    };
+    -- skip instance is not available
+    if ( not msgTable.instance ) then
+        -- debug ignored LFF instance call
+        Turbine.Shell.WriteLine( "<rgb=#FF0000>"
+            .. "channel: " .. msgTable.channel
+            .. ", owner: " .. msgTable.owner
+            .. ", count: " .. (msgTable.count or "")
+            .. ", instance: " .. (msgTable.instance or "")
+            .. ", tiers: " .. (msgTable.tiers or "")
+            .. ", roles: " .. (msgTable.roles or "")
+            .. ", level " .. (msgTable.level or "")
+            .. ", " .. ((msgTable.full and "FULL") or "IN_PROGRESS")
+            .. "</rgb>" );
+        return;
+    end
 
-    -- Update the Lupa Window items
+    -- update LFF call
+    lffList[msgTable.owner] = msgTable;
+
+    -- update the Lupa Window items
     lupa:Update();
 end
 
-
 -- Unit Tests
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '1/2 Stairs T2/t1/t2 lvl 130/120+/130 pst need run rune keeper  take lm hntr '" });
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Aaa</rgb>: '1/3 harrow/roost t2 x2'" });
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: 'Woe T5, 2/3 need DPS, pst'" });
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: '1/3 Woe/Ago T3 YC/Beorning + Dps pst'" });
 
-HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] Curl: 1/3 AM t1" });
-HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] Lool: 1/3 AM t1" });
-HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] Lala: 1/3 AM t1" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] Curl: 2/3 AM t1" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] Curl: full" });
-
-
--- Events
+-- events
 Turbine.Chat.Received = HandleReceivedMessage;
 
-
--- Lupa init
+-- init Lupa
+OpenLupa = Turbine.ShellCommand();
+Turbine.Shell.AddCommand("lupa", OpenLupa);
 Turbine.Shell.WriteLine( "<rgb=#FF9900>" .. plugin:GetName() .. " " .. plugin:GetVersion() .. " tá on-line!</rgb>" );
 
+function OpenLupa:Execute(cmd, args)
+    lupa:SetVisible( true );
+end
+
+-- destroy Lupa
 plugin.Unload = function() 
     Turbine.Shell.WriteLine( "<rgb=#FF9900>Até já!</rgb>" );
 end
