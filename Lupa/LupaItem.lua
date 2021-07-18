@@ -13,6 +13,7 @@ function LupaItem:Constructor( data )
 	self.data.channel = data.channel;
 	self.data.owner = tostring( data.owner );
 	self.data.count = data.count;
+	self.data.instance = data.instance;
 	self.data.instanceName = ( instances[data.instance] and instances[data.instance].name or data.instance );
 	self.data.tiers = data.tiers;
 	self.data.roles = data.roles;
