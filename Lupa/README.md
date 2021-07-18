@@ -16,4 +16,4 @@ Para abrir a janela principal, use o comando `/lupa` e espere aparecer um grupo 
 Fique atento, nem todas as chamadas irão aparecer, poruqe nem sempre é possível interpretar o que as pessoas digitam, a Lupa precisa de um padrão minimo para detectar que o que está sendo dito no canal /LFF realmente é uma chamada de grupo.
 
 ## Bugs
-Para informar um bug, fazer uma requisição de feature, ou alguma sugestão, sinta-se a vontade para criar uma [issue](https://github.com/joaoneto/modular-template/issues).
+Para informar um bug, fazer uma requisição de feature, ou alguma sugestão, sinta-se a vontade para criar uma [issue](https://github.com/joaoneto/GuardioesDeArda/issues).
