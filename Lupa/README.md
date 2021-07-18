@@ -1,5 +1,7 @@
 # Lupa
 
+[ PT-BR | *[EN](./README-EN.md)* ]
+
 O plugin Lupa, é um gerenciador de chamadas para grupos, em que você consegue listar em uma janela essas chamadas que acontecem no canal /LFF (Looking For Fellow) e enviar uma mensagem direta para o dono da mensagem, apenas clicando em um botão enviar, para informar que você quer entrar no grupo.
 
 ![Screenshot](./ScreenShot.jpg?raw=true)
