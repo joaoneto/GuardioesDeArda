@@ -6,7 +6,8 @@ O plugin Lupa, é um gerenciador de chamadas para grupos, em que você consegue 
 
 ## Instalando
 - Faça o download da ultima [release](https://github.com/joaoneto/GuardioesDeArda/releases).
-- Extraia o arquivo do plugin Lupa baixado no diretório: %HOMEPATH%\Documents\The Lord of the Rings Online\Plugins\
+- Extraia o arquivo do plugin Lupa baixado no diretório: `%HOMEPATH%\Documents\The Lord of the Rings Online\Plugins\`
+- Renomeie a pasta extraida, para que ela fique com o nome GuardioesDeArda, sem o sufixo da versão, ex: `%HOMEPATH%\Documents\The Lord of the Rings Online\Plugins\GuardioesDeArda`
 
 Para mais informações de como instalar plugins, acesse o https://lotrointerface.com/
 
