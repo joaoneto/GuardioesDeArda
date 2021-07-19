@@ -3,8 +3,8 @@
 	<Information>
 		<Name>Lupa</Name>
 		<Author>João Neto</Author>
-		<Version>1.0.0</Version>
-		<!-- <Image>GuardioesDeArda/Lupa/Resources/lupa_logo.tga</Image> -->
+		<Version>0.0.2</Version>
+		<Image>GuardioesDeArda/Lupa/Resources/lupa_logo_32x32.tga</Image>
 		<Description>
 GuargioesDeArda - Lupa
 - Gerenciador de busca de grupos LFF
