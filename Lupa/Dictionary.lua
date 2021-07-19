@@ -1,6 +1,7 @@
 RESOURCES_BASE_PATH = "GuardioesDeArda/Lupa/Resources/";
 
 instanceEnum = {
+    default = "default",
     am = "am",
     ad = "ad",
     fokd = "fokd",
@@ -9,6 +10,7 @@ instanceEnum = {
     woe = "woe",
     harrow = "harrow",
     remm = "remm",
+    pel = "pel",
 };
 
 instances = {
@@ -25,19 +27,27 @@ instances = {
         thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
     },
     [instanceEnum.stairs] = {
-        name = "Stairs",
-        thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
+        name = "Shakalush, the Stair Battle",
+        thumbnail = RESOURCES_BASE_PATH .. "stairs_thumb.tga",
     },
     [instanceEnum.woe] = {
-        name = "Woe",
-        thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
+        name = "Woe of the Willow",
+        thumbnail = RESOURCES_BASE_PATH .. "woe_thumb.tga",
     },
     [instanceEnum.harrow] = {
-        name = "Harrow",
-        thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
+        name = "The Harrowing of Morgul",
+        thumbnail = RESOURCES_BASE_PATH .. "harrow_thumb.tga",
     },
     [instanceEnum.remm] = {
-        name = "Remm",
-        thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
+        name = "The Remmorchant",
+        thumbnail = RESOURCES_BASE_PATH .. "remm_thumb.tga",
+    },
+    [instanceEnum.pel] = {
+        name = "Retaking Pelargir",
+        thumbnail = RESOURCES_BASE_PATH .. "pel_thumb.tga",
+    },
+    [instanceEnum.default] = {
+        name = "Default Call",
+        thumbnail = RESOURCES_BASE_PATH .. "default_thumb.tga",
     },
 };
