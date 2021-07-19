@@ -115,9 +115,9 @@ function LupaItem:Layout()
 	
 	self:SetSize( ROW_WIDTH, ROW_HEIGHT );
 	
-	self.nameLabel:SetSize( width - self.nameLabel:GetLeft(), LINE_HEIGHT );
-	self.nameLabel2:SetSize( width - self.nameLabel2:GetLeft(), LINE_HEIGHT );
-	self.nameLabel3:SetSize( width - self.nameLabel2:GetLeft(), LINE_HEIGHT );
+	self.nameLabel:SetSize( width - self.nameLabel:GetLeft() - 220, LINE_HEIGHT );
+	self.nameLabel2:SetSize( width - self.nameLabel2:GetLeft() - 220, LINE_HEIGHT );
+	self.nameLabel3:SetSize( width - self.nameLabel2:GetLeft() - 220, LINE_HEIGHT );
 end
 
 function LupaItem:SizeChanged()
