@@ -67,10 +67,12 @@ function LupaItem:Constructor( data )
 
 	self.chatSend = Turbine.UI.Lotro.Quickslot();
 	self.chatSend:SetParent( self );
-	self.chatSend:SetSize( 180, LINE_HEIGHT + ( SPACING / 2 ) );
-	self.chatSend:SetPosition( 300, SPACING );
+	self.chatSend:SetSize( 130, LINE_HEIGHT );
+	self.chatSend:SetPosition( 350, ( ROW_HEIGHT / 2 ) - ( LINE_HEIGHT / 2 ) );
 	self.chatSend:SetAllowDrop( false );
 	self.chatSend:SetZOrder( 1 );
+	self.chatSend:SetBlendMode( Turbine.UI.BlendMode.AlphaBlend );
+	self.chatSend:SetBackColor( Turbine.UI.Color( 0.9, 0, 0, 0 ) );
 
 	self.chatSendShortcut = Turbine.UI.Lotro.Shortcut( Turbine.UI.Lotro.ShortcutType.Alias, nil );
 	self.chatSendShortcut:SetData( "/tell " .. self.data.owner .. " x" );
@@ -101,8 +103,8 @@ function LupaItem:Constructor( data )
 
 	self.overlayChatSend = Turbine.UI.Control();
 	self.overlayChatSend:SetParent( self );
-	self.overlayChatSend:SetSize( 100, LINE_HEIGHT + ( SPACING * 2 ) );
-	self.overlayChatSend:SetPosition( 300, ( ROW_HEIGHT / 2 ) - ( LINE_HEIGHT / 2 ) - SPACING );
+	self.overlayChatSend:SetSize( 48, LINE_HEIGHT );
+	self.overlayChatSend:SetPosition( 350, ( ROW_HEIGHT / 2 ) - ( LINE_HEIGHT / 2 ) );
 	self.overlayChatSend:SetBackColor( Turbine.UI.Color( 0.9, 0, 0, 0 ) );
 	self.overlayChatSend:SetZOrder( 3 );
 	self.overlayChatSend:SetBlendMode( Turbine.UI.BlendMode.AlphaBlend );
