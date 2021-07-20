@@ -18,4 +18,4 @@ To open the main window, use the `/lupa` command and wait for a group to appear 
 Be aware that not all calls will show up, as it is not always possible to interpret what people type, Lupa needs a minimum standard to detect that what is being said on the /LFF channel is really a group call.
 
 ## Bugs
-Para informar um bug, fazer uma requisição de feature, ou alguma sugestão, sinta-se a vontade para criar uma [issue](https://github.com/joaoneto/GuardioesDeArda/issues).
+For bug report, feature request, suggestions, fell free to open an [issue](https://github.com/joaoneto/GuardioesDeArda/issues).
