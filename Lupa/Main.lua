@@ -31,36 +31,33 @@ function HandleReceivedMessage( sender, args )
         return;
     end
 
-    -- skip instance is not available
-    if ( not msgTable.instance ) then
-        -- debug ignored LFF instance call
-        Turbine.Shell.WriteLine( "<rgb=#FF0000>"
-            .. "channel: " .. msgTable.channel
-            .. ", owner: " .. msgTable.owner
-            .. ", count: " .. (msgTable.count or "")
-            .. ", instance: " .. (msgTable.instance or "")
-            .. ", tiers: " .. (msgTable.tiers or "")
-            .. ", roles: " .. (msgTable.roles or "")
-            .. ", level " .. (msgTable.level or "")
-            .. ", " .. ((msgTable.full and "FULL") or "IN_PROGRESS")
-            .. "</rgb>" );
+    -- parsed LFF call
+    if ( msgTable.instance ) then
+        -- update LFF call
+        lffList[msgTable.owner] = msgTable;
+    
+    -- not parsed properly LFF call
+    else
+        Turbine.Shell.WriteLine(
+            "<rgb=#FF0000>"
+            .. string.gsub( normalizedMessage, "%w+ [%w-_]+ (.*)", "%1" )
+            .. "</rgb>"
+        )
 
         -- update LFF call
         lffList[msgTable.owner] = {
             channel = msgTable.channel,
             owner = msgTable.owner,
             instance = instanceEnum.default,
-            lffMessage = string.gsub( normalizedMessage, "%w+ %w+ (.*)", "%1" ),
+            time = Turbine.Engine.GetLocalTime(),
+            lffMessage = string.gsub( normalizedMessage, "%w+ [%w-_]+ (.*)", "%1" ),
         };
-
-        -- update the Lupa Window items
-        lupa:Update();
-
-        return;
     end
 
-    -- update LFF call
-    lffList[msgTable.owner] = msgTable;
+    -- add time of LFF call creation
+    if ( lffList[msgTable.owner].time == nil ) then
+        lffList[msgTable.owner].time = Turbine.Engine.GetLocalTime();
+    end
 
     -- update the Lupa Window items
     lupa:Update();

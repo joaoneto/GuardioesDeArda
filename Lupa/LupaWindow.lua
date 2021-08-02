@@ -13,6 +13,16 @@ function LupaWindow:Constructor()
 	self:SetSize( LockSettings.window.width, LockSettings.window.height );
 	self:SetPosition( LockSettings.window.left, LockSettings.window.top );
 
+	self.showAllCheckBox = Turbine.UI.Lotro.CheckBox();
+	self.showAllCheckBox:SetParent( self );
+	self.showAllCheckBox:SetFont( Turbine.UI.Lotro.Font.TrajanPro14 );
+	self.showAllCheckBox:SetText( " Show all" );
+	self.showAllCheckBox:SetChecked( false );
+	self.showAllCheckBox.checked = false;
+	self.showAllCheckBox.CheckedChanged = function( sender, args )
+		self:Update();
+	end
+
 	self.verticalScrollbar = Turbine.UI.Lotro.ScrollBar();
 	self.verticalScrollbar:SetOrientation( Turbine.UI.Orientation.Vertical );
 	self.verticalScrollbar:SetParent( self );
@@ -30,11 +40,27 @@ function LupaWindow:Update()
 	while self.lupaList:GetItemCount() > 0 do
 		self.lupaList:RemoveItemAt( 1 );
 	end
-	
-	-- re-render list items
-	for k, data in pairs(lffList) do
-		local item = LupaItem( data );
-		self.lupaList:AddItem( item, self.lupaList:GetItemCount() - 1 );
+
+	-- transform hash table in table
+	local list = {};
+	for k, data in pairs( lffList ) do
+		table.insert( list, data );
+	end
+
+	-- sort table
+	table.sort( list, function (a, b)
+		return a.time > b.time;
+	end );
+
+	local showAll = self.showAllCheckBox:IsChecked();
+	-- re-render
+	for k, data in pairs( list ) do
+		local isDefault = data.instance == nil or data.instance == instanceEnum.default;
+		-- showAll or filter parsed LFF calls to show
+		if ( showAll or not isDefault ) then
+			local item = LupaItem( data );
+			self.lupaList:AddItem( item, 0 );
+		end
 	end
 
 	self:Layout();
@@ -50,6 +76,9 @@ function LupaWindow:Layout()
 	
 	self.verticalScrollbar:SetPosition( width - 25, 67 );
 	self.verticalScrollbar:SetSize( 10, listHeight );
+
+	self.showAllCheckBox:SetPosition( 15, 45 );
+	self.showAllCheckBox:SetSize( 90, 24 );
 
 	local i;
 
