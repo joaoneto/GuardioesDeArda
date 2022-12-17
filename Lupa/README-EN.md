@@ -16,6 +16,7 @@ For more information on how to install plugins, go to https://lotrointerface.com
 ## Using
 To open the main window, use the `/lupa` command and wait for a group to appear so that you can request to join, just by clicking on the button that appears on the side.
 Be aware that not all calls will show up, as it is not always possible to interpret what people type, Lupa needs a minimum standard to detect that what is being said on the /LFF channel is really a group call.
+[![Watch in game video](https://img.youtube.com/vi/2rIchFnULkg/0.jpg)](https://www.youtube.com/watch?v=2rIchFnULkg)
 
 ## Bugs
 For bug report, feature request, suggestions, fell free to open an [issue](https://github.com/joaoneto/GuardioesDeArda/issues).
