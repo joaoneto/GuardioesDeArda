@@ -11,6 +11,12 @@ instanceEnum = {
     harrow = "harrow",
     remm = "remm",
     pel = "pel",
+    storv = "storv",
+    storvagun = "storv",
+    doom = "doom",
+    hh = "hh",
+    hor = "hor",
+    dop = "dop",
 };
 
 instances = {
@@ -45,6 +51,26 @@ instances = {
     [instanceEnum.pel] = {
         name = "Retaking Pelargir",
         thumbnail = RESOURCES_BASE_PATH .. "pel_thumb.tga",
+    },
+    [instanceEnum.storv] = {
+        name = "Storvâgûn",
+        thumbnail = RESOURCES_BASE_PATH .. "storv_thumb.tga",
+    },
+    [instanceEnum.doom] = {
+        name = "Doom of Caras Gelebren",
+        thumbnail = RESOURCES_BASE_PATH .. "doom_thumb.tga",
+    },
+    [instanceEnum.hh] = {
+        name = "The Hiddenhoard of Abnankâra",
+        thumbnail = RESOURCES_BASE_PATH .. "hh_thumb.tga",
+    },
+    [instanceEnum.hor] = {
+        name = "Adkhât-zahhar, the Houses of Rest",
+        thumbnail = RESOURCES_BASE_PATH .. "hor_thumb.tga",
+    },
+    [instanceEnum.dop] = {
+        name = "Den of Pughlak",
+        thumbnail = RESOURCES_BASE_PATH .. "dop_thumb.tga",
     },
     [instanceEnum.default] = {
         name = "Possible Group",

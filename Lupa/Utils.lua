@@ -77,7 +77,7 @@ function parseMessage( str )
             -- find role ie: [healer tank dps]
             elseif (
                 string.match( value, "heal[^er]?" )
-                or string.match( value, "t[^ank]" )
+                or string.match( value, "tank[^ish]?" )
                 or string.match( value, "dps" )
                 or string.match( value, "hunter" )
                 or string.match( value, "rk" )
@@ -88,7 +88,7 @@ function parseMessage( str )
                 tbl.roles = string.gsub( tbl.roles, "^[,/%s]?(.*)[,/%s]?$", "%1" );
             -- find instance ie: [am, foKd, ad, stairs]
             elseif ( instanceEnum[value] ) then
-                -- print( "find role " .. value );
+                -- print( "find instance " .. value );
                 tbl.instance = value;
             end
         end
