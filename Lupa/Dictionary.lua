@@ -47,7 +47,7 @@ instances = {
         thumbnail = RESOURCES_BASE_PATH .. "pel_thumb.tga",
     },
     [instanceEnum.default] = {
-        name = "Default Call",
+        name = "Possible Group",
         thumbnail = RESOURCES_BASE_PATH .. "default_thumb.tga",
     },
 };
