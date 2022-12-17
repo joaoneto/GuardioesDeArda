@@ -66,11 +66,11 @@ end
 -- unit Tests
 -- nice way to run lua: https://www.tutorialspoint.com/execute_lua_online.php
 --
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '1/2 Stairs T2/t1/t2 lvl 130/120+/130 pst need run rune keeper  take lm hntr '" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '2/2 Stairs T2/t1/t2 lvl 130/120+/130 pst need run rune keeper hntr '" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Aaa</rgb>: '1/3 harrow/roost t2 x2'" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: 'Woe T5, 2/3 need DPS, pst'" });
--- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: '1/3 Woe/Ago T3 YC/Beorning + Dps pst'" });
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Rodsin</rgb>: 'LF Storv T2 2/6 tanking/heals/dps'" } );
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User2</rgb>: 'this is not a instance'" } );
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User3</rgb>: 'HH T1 9/12'" } );
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User3</rgb>: 'HoR T3 4/12'" } );
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User4</rgb>: 'Doom T2 7/12'" } );rning + Dps pst'" });
 
 -- events
 Turbine.Chat.Received = HandleReceivedMessage;
