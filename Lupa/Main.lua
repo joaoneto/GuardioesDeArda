@@ -35,7 +35,7 @@ function HandleReceivedMessage( sender, args )
     if ( msgTable.instance ) then
         -- update LFF call
         lffList[msgTable.owner] = msgTable;
-    
+
     -- not parsed properly LFF call
     else
         Turbine.Shell.WriteLine(
@@ -67,6 +67,7 @@ end
 -- nice way to run lua: https://www.tutorialspoint.com/execute_lua_online.php
 --
 -- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '1/2 Stairs T2/t1/t2 lvl 130/120+/130 pst need run rune keeper  take lm hntr '" });
+-- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '2/2 Stairs T2/t1/t2 lvl 130/120+/130 pst need run rune keeper hntr '" });
 -- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Aaa</rgb>: '1/3 harrow/roost t2 x2'" });
 -- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: 'Woe T5, 2/3 need DPS, pst'" });
 -- HandleReceivedMessage( nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Bbb</rgb>: '1/3 Woe/Ago T3 YC/Beorning + Dps pst'" });

@@ -13,13 +13,13 @@ function LupaWindow:Constructor()
 	self:SetSize( LockSettings.window.width, LockSettings.window.height );
 	self:SetPosition( LockSettings.window.left, LockSettings.window.top );
 
-	self.showAllCheckBox = Turbine.UI.Lotro.CheckBox();
-	self.showAllCheckBox:SetParent( self );
-	self.showAllCheckBox:SetFont( Turbine.UI.Lotro.Font.TrajanPro14 );
-	self.showAllCheckBox:SetText( " Show all" );
-	self.showAllCheckBox:SetChecked( false );
-	self.showAllCheckBox.checked = false;
-	self.showAllCheckBox.CheckedChanged = function( sender, args )
+	self.showOnlyInPatternBox = Turbine.UI.Lotro.CheckBox();
+	self.showOnlyInPatternBox:SetParent( self );
+	self.showOnlyInPatternBox:SetFont( Turbine.UI.Lotro.Font.TrajanPro14 );
+	self.showOnlyInPatternBox:SetText( " Show only pattern based LFF" );
+	self.showOnlyInPatternBox:SetChecked( false );
+	self.showOnlyInPatternBox.checked = false;
+	self.showOnlyInPatternBox.CheckedChanged = function( sender, args )
 		self:Update();
 	end
 
@@ -52,7 +52,7 @@ function LupaWindow:Update()
 		return a.time > b.time;
 	end );
 
-	local showAll = self.showAllCheckBox:IsChecked();
+	local showAll = not self.showOnlyInPatternBox:IsChecked();
 	-- re-render
 	for k, data in pairs( list ) do
 		local isDefault = data.instance == nil or data.instance == instanceEnum.default;
@@ -73,12 +73,12 @@ function LupaWindow:Layout()
 	local listHeight = height - 93;
 
 	self.lupaList:SetSize( listWidth, listHeight );
-	
+
 	self.verticalScrollbar:SetPosition( width - 25, 67 );
 	self.verticalScrollbar:SetSize( 10, listHeight );
 
-	self.showAllCheckBox:SetPosition( 15, 45 );
-	self.showAllCheckBox:SetSize( 90, 24 );
+	self.showOnlyInPatternBox:SetPosition( 15, 45 );
+	self.showOnlyInPatternBox:SetSize( 240, 24 );
 
 	local i;
 
