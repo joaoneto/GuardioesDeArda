@@ -4,6 +4,8 @@ import "Turbine.UI.Lotro";
 
 import "GuardioesDeArda.Lupa.LupaItem";
 
+local TWENTY_MINUTES_IN_SECONDS = 1200;
+
 LupaWindow = class( Turbine.UI.Lotro.Window );
 
 function LupaWindow:Constructor()
@@ -44,7 +46,13 @@ function LupaWindow:Update()
 	-- transform hash table in table
 	local list = {};
 	for k, data in pairs( lffList ) do
-		table.insert( list, data );
+		-- check if LFF message is grater than 20 minutes
+		if ( Turbine.Engine.GetLocalTime() - data.time > TWENTY_MINUTES_IN_SECONDS ) then
+			-- if message timeout, them remove from lffList
+			lffList[data.owner] = nil;
+		else
+			table.insert( list, data );
+		end
 	end
 
 	-- sort table
