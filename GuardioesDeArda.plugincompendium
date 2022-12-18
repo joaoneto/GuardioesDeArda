@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Id>1142</Id>
+    <Name>Lupa</Name>
+    <Version>0.0.5-alpha</Version>
+    <Author>João Neto</Author>
+    <InfoUrl>https://www.lotrointerface.com/downloads/info1142-Lupa.html</InfoUrl>
+    <DownloadUrl>https://www.lotrointerface.com/downloads/download1142-Lupa</DownloadUrl>
+    <Descriptors>
+        <descriptor>GuardioesDeArda\Lupa.plugin</descriptor>
+    </Descriptors>
+    <Dependencies />
+</PluginConfig>
