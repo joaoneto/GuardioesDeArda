@@ -6,33 +6,33 @@ import "GuardioesDeArda.Lupa.LupaItem";
 
 local TWENTY_MINUTES_IN_SECONDS = 1200;
 
-LupaWindow = class( Turbine.UI.Lotro.Window );
+LupaWindow = class(Turbine.UI.Lotro.Window);
 
 function LupaWindow:Constructor()
-	Turbine.UI.Lotro.Window.Constructor( self );
+	Turbine.UI.Lotro.Window.Constructor(self);
 
-	self:SetText( "Lupa" );
-	self:SetSize( LockSettings.window.width, LockSettings.window.height );
-	self:SetPosition( LockSettings.window.left, LockSettings.window.top );
+	self:SetText("Lupa");
+	self:SetSize(LupaSettings.window.width, LupaSettings.window.height);
+	self:SetPosition(LupaSettings.window.left, LupaSettings.window.top);
 
 	self.showOnlyInPatternBox = Turbine.UI.Lotro.CheckBox();
-	self.showOnlyInPatternBox:SetParent( self );
-	self.showOnlyInPatternBox:SetFont( Turbine.UI.Lotro.Font.TrajanPro14 );
-	self.showOnlyInPatternBox:SetText( " Show only pattern based LFF" );
-	self.showOnlyInPatternBox:SetChecked( false );
+	self.showOnlyInPatternBox:SetParent(self);
+	self.showOnlyInPatternBox:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
+	self.showOnlyInPatternBox:SetText(" Show only pattern based LFF");
+	self.showOnlyInPatternBox:SetChecked(false);
 	self.showOnlyInPatternBox.checked = false;
-	self.showOnlyInPatternBox.CheckedChanged = function( sender, args )
+	self.showOnlyInPatternBox.CheckedChanged = function(_sender, _args)
 		self:Update();
 	end
 
 	self.verticalScrollbar = Turbine.UI.Lotro.ScrollBar();
-	self.verticalScrollbar:SetOrientation( Turbine.UI.Orientation.Vertical );
-	self.verticalScrollbar:SetParent( self );
+	self.verticalScrollbar:SetOrientation(Turbine.UI.Orientation.Vertical);
+	self.verticalScrollbar:SetParent(self);
 
 	self.lupaList = Turbine.UI.ListBox();
-	self.lupaList:SetParent( self );
-	self.lupaList:SetPosition( 15, 67 );
-	self.lupaList:SetVerticalScrollBar( self.verticalScrollbar );
+	self.lupaList:SetParent(self);
+	self.lupaList:SetPosition(15, 67);
+	self.lupaList:SetVerticalScrollBar(self.verticalScrollbar);
 
 	self:Update();
 end
@@ -40,34 +40,34 @@ end
 function LupaWindow:Update()
 	-- clean
 	while self.lupaList:GetItemCount() > 0 do
-		self.lupaList:RemoveItemAt( 1 );
+		self.lupaList:RemoveItemAt(1);
 	end
 
 	-- transform hash table in table
 	local list = {};
-	for k, data in pairs( lffList ) do
+	for _, data in pairs(LffList) do
 		-- check if LFF message is grater than 20 minutes
-		if ( Turbine.Engine.GetLocalTime() - data.time > TWENTY_MINUTES_IN_SECONDS ) then
-			-- if message timeout, them remove from lffList
-			lffList[data.owner] = nil;
+		if (Turbine.Engine.GetLocalTime() - data.time > TWENTY_MINUTES_IN_SECONDS) then
+			-- if message timeout, them remove from LffList
+			LffList[data.owner] = nil;
 		else
-			table.insert( list, data );
+			table.insert(list, data);
 		end
 	end
 
 	-- sort table
-	table.sort( list, function (a, b)
+	table.sort(list, function (a, b)
 		return a.time > b.time;
-	end );
+	end);
 
 	local showAll = not self.showOnlyInPatternBox:IsChecked();
 	-- re-render
-	for k, data in pairs( list ) do
-		local isDefault = data.instance == nil or data.instance == instanceEnum.default;
+	for _, data in pairs(list) do
+		local isDefault = data.instance == nil or data.instance == InstanceEnum.default;
 		-- showAll or filter parsed LFF calls to show
-		if ( showAll or not isDefault ) then
-			local item = LupaItem( data );
-			self.lupaList:AddItem( item, 0 );
+		if (showAll or not isDefault) then
+			local item = LupaItem(data);
+			self.lupaList:AddItem(item, 0);
 		end
 	end
 
@@ -80,19 +80,17 @@ function LupaWindow:Layout()
 	local listWidth = width - 48;
 	local listHeight = height - 93;
 
-	self.lupaList:SetSize( listWidth, listHeight );
+	self.lupaList:SetSize(listWidth, listHeight);
 
-	self.verticalScrollbar:SetPosition( width - 25, 67 );
-	self.verticalScrollbar:SetSize( 10, listHeight );
+	self.verticalScrollbar:SetPosition(width - 25, 67);
+	self.verticalScrollbar:SetSize(10, listHeight);
 
-	self.showOnlyInPatternBox:SetPosition( 15, 45 );
-	self.showOnlyInPatternBox:SetSize( 240, 24 );
-
-	local i;
+	self.showOnlyInPatternBox:SetPosition(15, 45);
+	self.showOnlyInPatternBox:SetSize(240, 24);
 
 	for i = 1, self.lupaList:GetItemCount() do
-		local exampleListItem = self.lupaList:GetItem( i );
-		exampleListItem:SetSize( listWidth, 20 );
+		local exampleListItem = self.lupaList:GetItem(i);
+		exampleListItem:SetSize(listWidth, 20);
 	end
 end
 

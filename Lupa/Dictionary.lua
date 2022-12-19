@@ -1,6 +1,6 @@
 RESOURCES_BASE_PATH = "GuardioesDeArda/Lupa/Resources/";
 
-instanceEnum = {
+InstanceEnum = {
     default = "default",
     am = "am",
     ad = "ad",
@@ -19,60 +19,60 @@ instanceEnum = {
     dop = "dop",
 };
 
-instances = {
-    [instanceEnum.am] = {
+Instances = {
+    [InstanceEnum.am] = {
         name = "Asakâd-mazal",
         thumbnail = RESOURCES_BASE_PATH .. "am_thumb.tga",
     },
-    [instanceEnum.ad] = {
+    [InstanceEnum.ad] = {
         name = "Amdân Dammul",
         thumbnail = RESOURCES_BASE_PATH .. "ad_thumb.tga",
     },
-    [instanceEnum.fokd] = {
+    [InstanceEnum.fokd] = {
         name = "The Fall of Khazad-dûm",
         thumbnail = RESOURCES_BASE_PATH .. "fokd_thumb.tga",
     },
-    [instanceEnum.stairs] = {
+    [InstanceEnum.stairs] = {
         name = "Shakalush, the Stair Battle",
         thumbnail = RESOURCES_BASE_PATH .. "stairs_thumb.tga",
     },
-    [instanceEnum.woe] = {
+    [InstanceEnum.woe] = {
         name = "Woe of the Willow",
         thumbnail = RESOURCES_BASE_PATH .. "woe_thumb.tga",
     },
-    [instanceEnum.harrow] = {
+    [InstanceEnum.harrow] = {
         name = "The Harrowing of Morgul",
         thumbnail = RESOURCES_BASE_PATH .. "harrow_thumb.tga",
     },
-    [instanceEnum.remm] = {
+    [InstanceEnum.remm] = {
         name = "The Remmorchant",
         thumbnail = RESOURCES_BASE_PATH .. "remm_thumb.tga",
     },
-    [instanceEnum.pel] = {
+    [InstanceEnum.pel] = {
         name = "Retaking Pelargir",
         thumbnail = RESOURCES_BASE_PATH .. "pel_thumb.tga",
     },
-    [instanceEnum.storv] = {
+    [InstanceEnum.storv] = {
         name = "Storvâgûn",
         thumbnail = RESOURCES_BASE_PATH .. "storv_thumb.tga",
     },
-    [instanceEnum.doom] = {
+    [InstanceEnum.doom] = {
         name = "Doom of Caras Gelebren",
         thumbnail = RESOURCES_BASE_PATH .. "doom_thumb.tga",
     },
-    [instanceEnum.hh] = {
+    [InstanceEnum.hh] = {
         name = "The Hiddenhoard of Abnankâra",
         thumbnail = RESOURCES_BASE_PATH .. "hh_thumb.tga",
     },
-    [instanceEnum.hor] = {
+    [InstanceEnum.hor] = {
         name = "Adkhât-zahhar, the Houses of Rest",
         thumbnail = RESOURCES_BASE_PATH .. "hor_thumb.tga",
     },
-    [instanceEnum.dop] = {
+    [InstanceEnum.dop] = {
         name = "Den of Pughlak",
         thumbnail = RESOURCES_BASE_PATH .. "dop_thumb.tga",
     },
-    [instanceEnum.default] = {
+    [InstanceEnum.default] = {
         name = "Possible Group",
         thumbnail = RESOURCES_BASE_PATH .. "default_thumb.tga",
     },
