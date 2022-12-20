@@ -67,23 +67,23 @@ function LupaItem:Constructor(data)
 
 	self.chatSend = Turbine.UI.Lotro.Quickslot();
 	self.chatSend:SetParent(self);
-	self.chatSend:SetSize(130, LINE_HEIGHT);
+	self.chatSend:SetSize(140, LINE_HEIGHT);
 	self.chatSend:SetPosition(350, (ROW_HEIGHT / 2) - (LINE_HEIGHT / 2));
 	self.chatSend:SetAllowDrop(false);
 	self.chatSend:SetZOrder(1);
 	self.chatSend:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-	self.chatSend:SetBackColor(Turbine.UI.Color(0.9, 0, 0, 0));
+	self.chatSend:SetBackColor(Turbine.UI.Color(0.91, 0, 0, 0));
 
-	self.chatSendShortcut = Turbine.UI.Lotro.Shortcut(Turbine.UI.Lotro.ShortcutType.Alias, nil);
+	self.chatSendShortcut = Turbine.UI.Lotro.Shortcut(Turbine.UI.Lotro.ShortcutType.Alias, "");
 	self.chatSendShortcut:SetData("/tell " .. self.data.owner .. " x");
 
 	self.chatSend:SetShortcut(self.chatSendShortcut);
 
 	self.chatSendButton = Turbine.UI.Label();
 	self.chatSendButton:SetParent(self);
-	self.chatSendButton:SetSize(80, LINE_HEIGHT);
-	self.chatSendButton:SetPosition(400, (ROW_HEIGHT / 2) - (LINE_HEIGHT / 2) );
-	self.chatSendButton:SetForeColor(Turbine.UI.Color(1, 1, 0));
+	self.chatSendButton:SetSize(89, LINE_HEIGHT + 2);
+	self.chatSendButton:SetPosition(400, (ROW_HEIGHT / 2) - (LINE_HEIGHT / 2));
+	self.chatSendButton:SetForeColor(Turbine.UI.Color.Yellow);
 	self.chatSendButton:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
 	self.chatSendButton:SetFontStyle(Turbine.UI.FontStyle.Outline);
 	self.chatSendButton:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
@@ -91,21 +91,23 @@ function LupaItem:Constructor(data)
 	self.chatSendButton:SetZOrder(2);
 	self.chatSendButton:SetText("Send Tell");
 	self.chatSendButton:SetBlendMode(Turbine.UI.BlendMode.Overlay);
-	self.chatSendButton:SetBackColor(Turbine.UI.Color(1, 0.1, 0.1, 0.9));
+	self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
 
 	self.chatSend.MouseEnter = function()
-		self.chatSendButton:SetBackColor(Turbine.UI.Color(1, 0.1, 0.4, 0.9));
+		self.chatSendButton:SetForeColor(Turbine.UI.Color.White);
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao_hover.tga");
 	end
 
 	self.chatSend.MouseLeave = function()
-		self.chatSendButton:SetBackColor(Turbine.UI.Color(1, 0.2, 0.2, 0.9));
+		self.chatSendButton:SetForeColor(Turbine.UI.Color.Yellow);
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
 	end
 
 	self.overlayChatSend = Turbine.UI.Control();
 	self.overlayChatSend:SetParent(self);
 	self.overlayChatSend:SetSize(48, LINE_HEIGHT);
 	self.overlayChatSend:SetPosition(350, (ROW_HEIGHT / 2) - (LINE_HEIGHT / 2));
-	self.overlayChatSend:SetBackColor(Turbine.UI.Color(0.9, 0, 0, 0));
+	self.overlayChatSend:SetBackColor(Turbine.UI.Color(0.91, 0, 0, 0));
 	self.overlayChatSend:SetZOrder(3);
 	self.overlayChatSend:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
 
