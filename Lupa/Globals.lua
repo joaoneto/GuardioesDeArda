@@ -3,7 +3,7 @@ LupaSettings = {
         left = 840,
         top = 300,
         width = 540,
-        height = 400,
+        height = 480,
     },
 };
 

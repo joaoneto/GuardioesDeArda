@@ -5,6 +5,7 @@ import "Turbine.UI.Lotro";
 import "GuardioesDeArda.Lupa.LupaItem";
 
 local TWENTY_MINUTES_IN_SECONDS = 1200;
+local LINE_HEIGHT = 18;
 
 LupaWindow = class(Turbine.UI.Lotro.Window);
 
@@ -25,13 +26,59 @@ function LupaWindow:Constructor()
 		self:Update();
 	end
 
+	self.chatSend = Turbine.UI.Lotro.Quickslot();
+	self.chatSend:SetParent(self);
+	self.chatSend:SetSize(140, LINE_HEIGHT);
+	self.chatSend:SetPosition(386, 48);
+	self.chatSend:SetAllowDrop(false);
+	self.chatSend:SetZOrder(1);
+	self.chatSend:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+	self.chatSend:SetBackColor(Turbine.UI.Color(0.91, 0, 0, 0));
+
+	self.chatSendShortcut = Turbine.UI.Lotro.Shortcut(Turbine.UI.Lotro.ShortcutType.Alias, "");
+	self.chatSendShortcut:SetData("/tell Curl x");
+
+	self.chatSend:SetShortcut(self.chatSendShortcut);
+
+	self.chatSendButton = Turbine.UI.Label();
+	self.chatSendButton:SetParent(self);
+	self.chatSendButton:SetSize(89, LINE_HEIGHT + 2);
+	self.chatSendButton:SetPosition(438, 48);
+	self.chatSendButton:SetForeColor(Turbine.UI.Color.Yellow);
+	self.chatSendButton:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
+	self.chatSendButton:SetFontStyle(Turbine.UI.FontStyle.Outline);
+	self.chatSendButton:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
+	self.chatSendButton:SetMouseVisible(false);
+	self.chatSendButton:SetZOrder(2);
+	self.chatSendButton:SetText("Send Tell");
+	self.chatSendButton:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+	self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
+
+	self.chatSend.MouseEnter = function()
+		self.chatSendButton:SetForeColor(Turbine.UI.Color.White);
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao_hover.tga");
+	end
+
+	self.chatSend.MouseLeave = function()
+		self.chatSendButton:SetForeColor(Turbine.UI.Color.Yellow);
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
+	end
+
+	self.overlayChatSend = Turbine.UI.Control();
+	self.overlayChatSend:SetParent(self);
+	self.overlayChatSend:SetSize(52, LINE_HEIGHT);
+	self.overlayChatSend:SetPosition(386, 48);
+	self.overlayChatSend:SetZOrder(3);
+	self.overlayChatSend:SetBlendMode(Turbine.UI.BlendMode.Overlay);
+	self.overlayChatSend:SetBackColor(Turbine.UI.Color(0.91, 0, 0, 0));
+
 	self.verticalScrollbar = Turbine.UI.Lotro.ScrollBar();
 	self.verticalScrollbar:SetOrientation(Turbine.UI.Orientation.Vertical);
 	self.verticalScrollbar:SetParent(self);
 
 	self.lupaList = Turbine.UI.ListBox();
 	self.lupaList:SetParent(self);
-	self.lupaList:SetPosition(15, 67);
+	self.lupaList:SetPosition(15, 120);
 	self.lupaList:SetVerticalScrollBar(self.verticalScrollbar);
 
 	self:Update();
@@ -77,12 +124,12 @@ end
 function LupaWindow:Layout()
 	local width, height = self:GetSize();
 
-	local listWidth = width - 48;
-	local listHeight = height - 93;
+	local listWidth = width - 38;
+	local listHeight = height - 152;
 
 	self.lupaList:SetSize(listWidth, listHeight);
 
-	self.verticalScrollbar:SetPosition(width - 25, 67);
+	self.verticalScrollbar:SetPosition(width - 22, 120);
 	self.verticalScrollbar:SetSize(10, listHeight);
 
 	self.showOnlyInPatternBox:SetPosition(15, 45);
