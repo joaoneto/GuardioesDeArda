@@ -16,12 +16,15 @@ function LupaWindow:Constructor()
 	self:SetSize(LupaSettings.window.width, LupaSettings.window.height);
 	self:SetPosition(LupaSettings.window.left, LupaSettings.window.top);
 
+	self.selectedLffOwner = nil;
+
 	self.showOnlyInPatternBox = Turbine.UI.Lotro.CheckBox();
 	self.showOnlyInPatternBox:SetParent(self);
 	self.showOnlyInPatternBox:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
+	self.showOnlyInPatternBox:SetForeColor(Turbine.UI.Color.Khaki);
 	self.showOnlyInPatternBox:SetText(" Show only pattern based LFF");
-	self.showOnlyInPatternBox:SetChecked(false);
-	self.showOnlyInPatternBox.checked = false;
+	self.showOnlyInPatternBox:SetChecked(true);
+	self.showOnlyInPatternBox.checked = true;
 	self.showOnlyInPatternBox.CheckedChanged = function(_sender, _args)
 		self:Update();
 	end
@@ -81,6 +84,21 @@ function LupaWindow:Constructor()
 	self.lupaList:SetPosition(15, 120);
 	self.lupaList:SetVerticalScrollBar(self.verticalScrollbar);
 
+	self.lupaList.SelectedIndexChanged = function(sender, args)
+		local selectedItem = self.lupaList:GetSelectedItem();
+		for i = 1, self.lupaList:GetItemCount() do
+			local item = self.lupaList:GetItem(i);
+			if (item and selectedItem) then
+				if (selectedItem.data.owner == item.data.owner) then
+					self.selectedLffOwner = item.data.owner;
+					item:Select();
+				else
+					item:Unselect();
+				end
+			end
+		end
+	end
+
 	self:Update();
 end
 
@@ -114,9 +132,18 @@ function LupaWindow:Update()
 		-- showAll or filter parsed LFF calls to show
 		if (showAll or not isDefault) then
 			local item = LupaItem(data);
-			self.lupaList:AddItem(item, 0);
+			self.lupaList:AddItem(item);
+			if (item) then
+				if (self.selectedLffOwner == item.data.owner) then
+					item:Select();
+				else
+					item:Unselect();
+				end
+			end
 		end
 	end
+
+	self.lupaList:SelectedIndexChanged({});
 
 	self:Layout();
 end
@@ -136,8 +163,8 @@ function LupaWindow:Layout()
 	self.showOnlyInPatternBox:SetSize(240, 24);
 
 	for i = 1, self.lupaList:GetItemCount() do
-		local exampleListItem = self.lupaList:GetItem(i);
-		exampleListItem:SetSize(listWidth, 20);
+		local item = self.lupaList:GetItem(i);
+		item:SetSize(listWidth, 20);
 	end
 end
 
