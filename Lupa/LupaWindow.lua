@@ -52,16 +52,16 @@ function LupaWindow:Constructor()
 	self.chatSendButton:SetZOrder(2);
 	self.chatSendButton:SetText("Send Tell");
 	self.chatSendButton:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-	self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
+	self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/button.tga");
 
 	self.chatSend.MouseEnter = function()
 		self.chatSendButton:SetForeColor(Turbine.UI.Color.White);
-		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao_hover.tga");
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/button_hover.tga");
 	end
 
 	self.chatSend.MouseLeave = function()
 		self.chatSendButton:SetForeColor(Turbine.UI.Color.Yellow);
-		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/botao.tga");
+		self.chatSendButton:SetBackground("GuardioesDeArda/Lupa/Resources/button.tga");
 	end
 
 	self.overlayChatSend = Turbine.UI.Control();
