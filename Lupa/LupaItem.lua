@@ -1,7 +1,7 @@
-local SPACING = 15;
+local SPACING = 8;
 local LINE_HEIGHT = 18;
 local ICON_SIZE = 48;
-local ROW_HEIGHT = 96;
+local ROW_HEIGHT = 76;
 
 LupaItem = class(Turbine.UI.Control);
 
@@ -46,14 +46,6 @@ function LupaItem:Constructor(data)
 		self.instanceLabel:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
 	end
 
-	-- self.nameLabel = Turbine.UI.Label();
-	-- self.nameLabel:SetParent(self);
-	-- self.nameLabel:SetPosition(ICON_SIZE + (SPACING * 2), SPACING);
-	-- self.nameLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro16);
-	-- self.nameLabel:SetZOrder(4);
-	-- self.nameLabel:SetForeColor(Turbine.UI.Color.Khaki);
-	-- self.nameLabel:SetText(self.data.instanceName);
-
 	self.ownerNameLabel = Turbine.UI.Label();
 	self.ownerNameLabel:SetMouseVisible(false);
 	self.ownerNameLabel:SetParent(self);
@@ -82,19 +74,22 @@ function LupaItem:Constructor(data)
 	end
 
 	self.MouseEnter = function()
-		self:SetBackColor(Turbine.UI.Color(0.26, 1, 1, 1));
-		self:SetBackColorBlendMode(Turbine.UI.BlendMode.Color);
+		self:SetBackColor(Turbine.UI.Color(0.40, 0, 0, 0));
 		self:SetBackground("GuardioesDeArda/Lupa/Resources/item_bg.tga");
 	end
 
 	self.MouseLeave = function()
-		self:SetBackColorBlendMode(Turbine.UI.BlendMode.Undefined);
+		self:SetBackColor(Turbine.UI.Color(0.10, 0, 0, 0));
 		if (not self.selected) then
 			self:SetBackground(nil);
 		end
 	end
 
 	self:Layout();
+end
+
+function LupaItem:IsSelected()
+	return self.selected;
 end
 
 function LupaItem:Select()
@@ -109,6 +104,9 @@ end
 
 function LupaItem:Layout()
 	local width = self:GetWidth();
+
+	self:SetBackColor(Turbine.UI.Color(0.10, 0, 0, 0));
+	self:SetBackColorBlendMode(Turbine.UI.BlendMode.AlphaBlend);
 
 	self:SetSize(500, ROW_HEIGHT);
 	self.nameLabel3:SetSize(width - (SPACING * 6), LINE_HEIGHT * 3);
