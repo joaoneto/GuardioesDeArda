@@ -4,6 +4,7 @@ import "Turbine.UI.Lotro";
 
 import "GuardioesDeArda.Lupa.LupaItem";
 import "GuardioesDeArda.Lupa.ButtonShortcut";
+import "GuardioesDeArda.Lupa.Tab";
 
 local TWENTY_MINUTES_IN_SECONDS = 1200;
 local LINE_HEIGHT = 18;
@@ -19,40 +20,40 @@ function LupaWindow:Constructor()
 
 	self.selectedLff = nil;
 
+	self.tabs = Tab();
+	self.tabs:SetParent(self);
+	self.tabs:SetPosition(0, 38);
+	self.tabs:SetSize(self:GetWidth(), self:GetHeight());
+
+	self.tabs:Add("LFF List");
+	self.tabs:Add("Create LFF");
+
 	self.showOnlyInPatternBox = Turbine.UI.Lotro.CheckBox();
-	self.showOnlyInPatternBox:SetParent(self);
+	self.showOnlyInPatternBox:SetParent(self.tabs:Get(1));
 	self.showOnlyInPatternBox:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
 	self.showOnlyInPatternBox:SetForeColor(Turbine.UI.Color.Khaki);
 	self.showOnlyInPatternBox:SetText(" Show only pattern based LFF");
 	self.showOnlyInPatternBox:SetChecked(true);
 	self.showOnlyInPatternBox.checked = true;
-	self.showOnlyInPatternBox.CheckedChanged = function(_sender, _args)
+	self.showOnlyInPatternBox.CheckedChanged = function()
 		self:Update();
 	end
 
 	self.chatSend = ButtonShortcut();
-	self.chatSend:SetParent(self);
+	self.chatSend:SetParent(self.tabs:Get(1));
 	self.chatSend:SetText("Send tell");
 	self.chatSend:SetData("/tell Curl x");
 	self.chatSend:SetSize(90, LINE_HEIGHT + 2);
-	self.chatSend:SetPosition(438, 48);
+	self.chatSend:SetPosition(426, 16);
 	self.chatSend:Disable();
-
-	self.selectedInstanceLabel = Turbine.UI.Label();
-	self.selectedInstanceLabel:SetMouseVisible(false);
-	self.selectedInstanceLabel:SetParent(self);
-	self.selectedInstanceLabel:SetPosition(14, 84);
-	self.selectedInstanceLabel:SetWidth(400);
-	self.selectedInstanceLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro16);
-	self.selectedInstanceLabel:SetForeColor(Turbine.UI.Color.Khaki);
 
 	self.verticalScrollbar = Turbine.UI.Lotro.ScrollBar();
 	self.verticalScrollbar:SetOrientation(Turbine.UI.Orientation.Vertical);
-	self.verticalScrollbar:SetParent(self);
+	self.verticalScrollbar:SetParent(self.tabs:Get(1));
 
 	self.lupaList = Turbine.UI.ListBox();
-	self.lupaList:SetParent(self);
-	self.lupaList:SetPosition(15, 120);
+	self.lupaList:SetParent(self.tabs:Get(1));
+	self.lupaList:SetPosition(15, 52);
 	self.lupaList:SetVerticalScrollBar(self.verticalScrollbar);
 
 	self.lupaList.SelectedIndexChanged = function()
@@ -75,6 +76,8 @@ function LupaWindow:Constructor()
 end
 
 function LupaWindow:Update()
+	self.tabs:SetSize(self:GetSize());
+
 	-- clean
 	while self.lupaList:GetItemCount() > 0 do
 		self.lupaList:RemoveItemAt(1);
@@ -128,10 +131,10 @@ function LupaWindow:Layout()
 
 	self.lupaList:SetSize(listWidth, listHeight);
 
-	self.verticalScrollbar:SetPosition(width - 22, 120);
+	self.verticalScrollbar:SetPosition(width - 22, 52);
 	self.verticalScrollbar:SetSize(10, listHeight);
 
-	self.showOnlyInPatternBox:SetPosition(15, 45);
+	self.showOnlyInPatternBox:SetPosition(15, 16);
 	self.showOnlyInPatternBox:SetSize(240, 24);
 end
 

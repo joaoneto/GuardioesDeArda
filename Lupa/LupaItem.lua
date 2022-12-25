@@ -80,7 +80,7 @@ function LupaItem:Constructor(data)
 					self[k .. "role"]:SetSize(16, 16);
 					self[k .. "role"]:SetPosition(left, top);
 					self[k .. "role"]:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-					self[k .. "role"]:SetBackground(ClassRoleIcons[r]);
+					self[k .. "role"]:SetBackground(ClassRoleIcons[r] or ClassRoleIcons.any);
 
 					self[k .. "value"] = Turbine.UI.Label();
 					self[k .. "value"]:SetMouseVisible(false);
