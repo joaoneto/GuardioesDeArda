@@ -116,7 +116,7 @@ function LupaItem:Constructor(data)
 				self[k .. "value"]:SetPosition(ICON_SIZE + (SPACING * 3) + ((i - 1) * 76), (LINE_HEIGHT * 2) + SPACING);
 				self[k .. "value"]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
 				self[k .. "value"]:SetFontStyle(Turbine.UI.FontStyle.Outline);
-				self[k .. "value"]:SetText(self.data[k]);
+				self[k .. "value"]:SetText(self.data[k] or "n/a");
 			end
 		end
 	end

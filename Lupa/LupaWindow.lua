@@ -22,8 +22,8 @@ function LupaWindow:Constructor()
 
 	self.tabs = Tab();
 	self.tabs:SetParent(self);
-	self.tabs:SetPosition(0, 38);
-	self.tabs:SetSize(self:GetWidth(), self:GetHeight());
+	self.tabs:SetPosition(10, 38);
+	self.tabs:SetSize(self:GetWidth() - 20, self:GetHeight() - 60);
 
 	self.tabs:Add("LFF List");
 	self.tabs:Add("Create LFF");
@@ -44,16 +44,17 @@ function LupaWindow:Constructor()
 	self.chatSend:SetText("Send tell");
 	self.chatSend:SetData("/tell Curl x");
 	self.chatSend:SetSize(90, LINE_HEIGHT + 2);
-	self.chatSend:SetPosition(426, 16);
+	self.chatSend:SetPosition(420, 16);
 	self.chatSend:Disable();
 
 	self.verticalScrollbar = Turbine.UI.Lotro.ScrollBar();
 	self.verticalScrollbar:SetOrientation(Turbine.UI.Orientation.Vertical);
 	self.verticalScrollbar:SetParent(self.tabs:Get(1));
+	self.verticalScrollbar:SetZOrder(1);
 
 	self.lupaList = Turbine.UI.ListBox();
 	self.lupaList:SetParent(self.tabs:Get(1));
-	self.lupaList:SetPosition(15, 52);
+	self.lupaList:SetPosition(10, 52);
 	self.lupaList:SetVerticalScrollBar(self.verticalScrollbar);
 
 	self.lupaList.SelectedIndexChanged = function()
@@ -131,7 +132,7 @@ function LupaWindow:Layout()
 
 	self.lupaList:SetSize(listWidth, listHeight);
 
-	self.verticalScrollbar:SetPosition(width - 22, 52);
+	self.verticalScrollbar:SetPosition(width - 32, 52);
 	self.verticalScrollbar:SetSize(10, listHeight);
 
 	self.showOnlyInPatternBox:SetPosition(15, 16);
