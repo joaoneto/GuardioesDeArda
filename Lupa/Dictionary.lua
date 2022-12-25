@@ -77,3 +77,18 @@ Instances = {
         thumbnail = RESOURCES_BASE_PATH .. "default_thumb.tga",
     },
 };
+
+ClassRoleIcons = {
+    heal = 0x4101f895,
+    heals = 0x4101f895,
+    dps = 0x4101f893,
+    tank = 0x4101f894,
+    supp = 0x4101f898,
+    burg = 0x4101f898,
+    lm = 0x4101f898,
+    mini = 0x4101f895,
+    champ = 0x4101f893,
+    rcap = 0x4101f893,
+    hunter = 0x4101f893,
+    any = 0x4101f89b,
+};

@@ -36,6 +36,7 @@ function LupaWindow:Constructor()
 	self.chatSend:SetData("/tell Curl x");
 	self.chatSend:SetSize(90, LINE_HEIGHT + 2);
 	self.chatSend:SetPosition(438, 48);
+	self.chatSend:Disable();
 
 	self.selectedInstanceLabel = Turbine.UI.Label();
 	self.selectedInstanceLabel:SetMouseVisible(false);
