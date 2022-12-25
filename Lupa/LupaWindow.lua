@@ -32,7 +32,7 @@ function LupaWindow:Constructor()
 	self.showOnlyInPatternBox:SetParent(self.tabs:Get(1));
 	self.showOnlyInPatternBox:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
 	self.showOnlyInPatternBox:SetForeColor(Turbine.UI.Color.Khaki);
-	self.showOnlyInPatternBox:SetText(" Show only pattern based LFF");
+	self.showOnlyInPatternBox:SetText(" Pattern only");
 	self.showOnlyInPatternBox:SetChecked(true);
 	self.showOnlyInPatternBox.checked = true;
 	self.showOnlyInPatternBox.CheckedChanged = function()

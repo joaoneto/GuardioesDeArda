@@ -2,7 +2,6 @@ import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "GuardioesDeArda.Lupa";
-import "GuardioesDeArda.Lupa.Dictionary";
 
 local lupa = LupaWindow();
 
@@ -57,11 +56,13 @@ end
 -- unit Tests
 -- nice way to run lua: https://www.tutorialspoint.com/execute_lua_online.php
 --
--- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Rodsin</rgb>: 'LF Storv T2 2/6 tanking/heals/dps'" });
--- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User2</rgb>: 'this is not a instance'" });
--- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User3</rgb>: 'HH T1 9/12'" });
--- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User3</rgb>: 'HoR T3 4/12'" });
--- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>User4</rgb>: 'Doom T2 7/12'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: 'this is not a instance'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Braket</rgb>: 'STORV T2 need tank, dps'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Neboc</rgb>: 'Storvâgûn L140 T2 PST 5/6 (need tank)'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Rodsin</rgb>: '4/12 HOR T3 DPS/HEAL/RCAP'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thurl</rgb>: '7/12 hh t2 heals/tank/any'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thupi</rgb>: '2/12 doom t1/t2 heal/dps/lm/burg/hunter 140'" });
+HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Pellaborn</rgb>: '5/6 am t3 tank 100'" });
 
 -- events
 Turbine.Chat.Received = HandleReceivedMessage;
