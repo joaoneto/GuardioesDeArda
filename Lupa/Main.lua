@@ -23,25 +23,27 @@ function HandleReceivedMessage(sender, args)
 
     -- parsed LFF call
     if (msgTable.instance) then
-        -- update LFF call
+        -- update LFF call (if is pattern)
         LffList[msgTable.owner] = msgTable;
 
     -- not parsed properly LFF call
     else
-        Turbine.Shell.WriteLine(
-            "<rgb=#FF0000>"
-            .. string.gsub(normalizedMessage, "%w+ [%w-_]+ (.*)", "%1")
-            .. "</rgb>"
-    )
+        -- Turbine.Shell.WriteLine(
+        --     "<rgb=#FF0000>"
+        --     .. string.gsub(normalizedMessage, "%w+ [%w-_]+ (.*)", "%1")
+        --     .. "</rgb>"
+        -- )
 
-        -- update LFF call
-        LffList[msgTable.owner] = {
-            channel = msgTable.channel,
-            owner = msgTable.owner,
-            instance = InstanceEnum.default,
-            time = Turbine.Engine.GetLocalTime(),
-            lffMessage = string.gsub(normalizedMessage, "%w+ [%w-_]+ (.*)", "%1"),
-        };
+        -- update LFF call (if not pattern)
+        if (not LffList[msgTable.owner]) then
+            LffList[msgTable.owner] = {
+                channel = msgTable.channel,
+                owner = msgTable.owner,
+                instance = InstanceEnum.default,
+                time = Turbine.Engine.GetLocalTime(),
+                lffMessage = string.gsub(normalizedMessage, "%w+ [%w-_]+ (.*)", "%1"),
+            };
+        end
     end
 
     -- add time of LFF call creation
@@ -56,13 +58,14 @@ end
 -- unit Tests
 -- nice way to run lua: https://www.tutorialspoint.com/execute_lua_online.php
 --
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: 'this is not a instance'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Braket</rgb>: 'STORV T2 need tank, dps'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Neboc</rgb>: 'Storvâgûn L140 T2 PST 5/6 (need tank)'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Rodsin</rgb>: '4/12 HOR T3 DPS/HEAL/RCAP'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thurl</rgb>: '7/12 hh t2 heals/tank/any'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thupi</rgb>: '2/12 doom t1/t2 heal/dps/lm/burg/hunter 140'" });
-HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Pellaborn</rgb>: '5/6 am t3 tank 100'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: 'this is not a instance'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Braket</rgb>: 'STORV T2 need tank, dps'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Neboc</rgb>: '1/x SV t1 heal/hunter any lvl100'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Rodsin</rgb>: '4/6 hor t3 DPS/HEAL/RCAP'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thurl</rgb>: '7/12 hh t2 any lvl140'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Thupi</rgb>: '2/12 doom t1/t2 heal/dps/lm/burg/hunter lvl140'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: '5/x am t3'" });
+-- HandleReceivedMessage(nil, { ChatType = Turbine.ChatType.LFF, Message = "[LFF] <rgb=#00ff00>Curl</rgb>: 'HELLO'" });
 
 -- events
 Turbine.Chat.Received = HandleReceivedMessage;

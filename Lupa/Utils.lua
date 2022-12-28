@@ -15,7 +15,7 @@ end
 -- channel owner  count instance tiers roles       level
 -- [LFF]   Curl:  2/3   AM       t2/t4
 -- [LFF]   Curl:  2/3   AM       .     tank/healer
--- [LFF]   Curl:  2/3   AM       .     .           100+
+-- [LFF]   Curl:  2/3   AM       .     .           lvl140
 -- [LFF]   Curl:  full  AM
 function ParseMessage(str)
     local tbl = {};
@@ -24,10 +24,11 @@ function ParseMessage(str)
     -- LFF Curl 2/3 AM t1
     local normalizedMessage = str:gsub("%[(.*)%] %<.*%>(.*)%<.*%>: '(.*)'", "%1 %2 %3");
     local splittedMessage = StrSplit(normalizedMessage);
-    local isPatternBased = splittedMessage[3]:match("%d+/%d+")
-        and splittedMessage[5]:match("t%d[/t%d]?")
-        and not splittedMessage[6] or splittedMessage[6]:match("[^any|tank|heal|dps|support][/[^any|tank|heal|dps|support]]?")
-        and not splittedMessage[7] or splittedMessage[7]:match("%d+");
+    local isPatternBased = #splittedMessage >= 3
+        and splittedMessage[3] and splittedMessage[3]:match("%d+/[x|%d+]")
+        and splittedMessage[5] and splittedMessage[5]:match("t%d[/t%d]?")
+        and (not splittedMessage[6] or splittedMessage[6] and splittedMessage[6]:match("%a+[/%a+]?$"))
+        and (not splittedMessage[7] or splittedMessage[7] and splittedMessage[7]:match("lvl-%d+[+]?$") or splittedMessage[7]:match("^%d+[+]?$"));
 
     tbl.channel = splittedMessage[1];
     tbl.owner = splittedMessage[2];
@@ -35,8 +36,11 @@ function ParseMessage(str)
     tbl.count = splittedMessage[3];
     tbl.instance = isPatternBased and InstanceEnum[splittedMessage[4]];
     tbl.tiers = splittedMessage[5];
-    tbl.roles = StrSplit(splittedMessage[6] or "", "/");
-    tbl.level = splittedMessage[7];
+    tbl.roles = splittedMessage[6]
+        and StrSplit(splittedMessage[6] or "any", "/")
+        or { "any" };
+    tbl.level = splittedMessage[7] and splittedMessage[7]:gsub("^lvl", "");
+    tbl.isPatternBased = isPatternBased;
 
     return tbl;
 end

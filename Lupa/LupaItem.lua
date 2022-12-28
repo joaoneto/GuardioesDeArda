@@ -10,11 +10,13 @@ function LupaItem:Constructor(data)
 
 	self.OnSelect = nil;
 	self.selected = false;
+	self.hoverHightlight = true;
 
 	self:SetSize(500, ROW_HEIGHT);
 	self:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
 	self:SetBackColorBlendMode(Turbine.UI.BlendMode.Color);
 
+	data = data or {};
 	self.data = {};
 	self.data.channel = data.channel;
 	self.data.owner = tostring(data.owner);
@@ -32,21 +34,14 @@ function LupaItem:Constructor(data)
     self.icon:SetSize(ICON_SIZE, ICON_SIZE);
     self.icon:SetPosition(SPACING, SPACING);
 	self.icon:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-	self.icon:SetBackground(
-		(Instances[data.instance] and Instances[data.instance].thumbnail)
-		or "GuardioesDeArda/Lupa/Resources/default_thumb.tga"
-	);
 
-	if (data.instance ~= InstanceEnum.default) then
-		self.instanceLabel = Turbine.UI.Label();
-		self.instanceLabel:SetMouseVisible(false);
-		self.instanceLabel:SetParent(self);
-		self.instanceLabel:SetPosition(0, ICON_SIZE + SPACING);
-		self.instanceLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
-		self.instanceLabel:SetForeColor(Turbine.UI.Color.Khaki);
-		self.instanceLabel:SetText(data.instance);
-		self.instanceLabel:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
-	end
+	self.instanceLabel = Turbine.UI.Label();
+	self.instanceLabel:SetMouseVisible(false);
+	self.instanceLabel:SetParent(self);
+	self.instanceLabel:SetPosition(0, ICON_SIZE + SPACING);
+	self.instanceLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
+	self.instanceLabel:SetForeColor(Turbine.UI.Color.Khaki);
+	self.instanceLabel:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
 
 	self.instanceNameLabel = Turbine.UI.Label();
 	self.instanceNameLabel:SetMouseVisible(false);
@@ -54,76 +49,19 @@ function LupaItem:Constructor(data)
 	self.instanceNameLabel:SetPosition(ICON_SIZE + (SPACING * 3), SPACING);
 	self.instanceNameLabel:SetFont(Turbine.UI.Lotro.Font.TrajanProBold16);
 	self.instanceNameLabel:SetForeColor(Turbine.UI.Color.Goldenrod);
-	self.instanceNameLabel:SetText(Instances[self.data.instance].name);
 	self.instanceNameLabel:SetSize(340, LINE_HEIGHT);
 
-	if (self.data.lffMessage ~= nil) then
-		self.txtLabel = Turbine.UI.Label();
-		self.txtLabel:SetMouseVisible(false);
-		self.txtLabel:SetParent(self);
-		self.txtLabel:SetSize(320, LINE_HEIGHT * 3);
-		self.txtLabel:SetPosition(ICON_SIZE + (SPACING * 3), LINE_HEIGHT + SPACING + (SPACING / 2));
-		self.txtLabel:SetFont(Turbine.UI.Lotro.Font.Verdana16);
-		self.txtLabel:SetFontStyle(Turbine.UI.FontStyle.Outline);
-		self.txtLabel:SetText(self.data.lffMessage);
-	else
-		-- count tiers roles level
-		for i, k in pairs({ "count", "tiers", "level", "roles" }) do
-			if (k == "roles") then
-				local left = ICON_SIZE + (SPACING * 3) + ((i - 1) * 76);
-				local top = LINE_HEIGHT + SPACING;
-
-				for j, r in pairs(self.data.roles) do
-					self[k .. "role"] = Turbine.UI.Control();
-					self[k .. "role"]:SetMouseVisible(false);
-					self[k .. "role"]:SetParent(self);
-					self[k .. "role"]:SetSize(16, 16);
-					self[k .. "role"]:SetPosition(left, top);
-					self[k .. "role"]:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-					self[k .. "role"]:SetBackground(ClassRoleIcons[r] or ClassRoleIcons.any);
-
-					self[k .. "value"] = Turbine.UI.Label();
-					self[k .. "value"]:SetMouseVisible(false);
-					self[k .. "value"]:SetParent(self);
-					self[k .. "value"]:SetSize(46, LINE_HEIGHT);
-					self[k .. "value"]:SetPosition(left + 16, top);
-					self[k .. "value"]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
-					self[k .. "value"]:SetFontStyle(Turbine.UI.FontStyle.Outline);
-					self[k .. "value"]:SetText(r);
-
-					if (j > 1 and j % 3 == 0) then
-						left = ICON_SIZE + (SPACING * 3) + ((i - 1) * 76);
-						top = top + LINE_HEIGHT;
-					else
-						left = left + (16 + 46);
-					end
-				end
-			else
-				self[k .. "label"] = Turbine.UI.Label();
-				self[k .. "label"]:SetMouseVisible(false);
-				self[k .. "label"]:SetParent(self);
-				self[k .. "label"]:SetSize(76, LINE_HEIGHT);
-				self[k .. "label"]:SetPosition(ICON_SIZE + (SPACING * 3) + ((i - 1) * 76), LINE_HEIGHT + SPACING);
-				self[k .. "label"]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
-				self[k .. "label"]:SetFontStyle(Turbine.UI.FontStyle.Outline);
-				self[k .. "label"]:SetForeColor(Turbine.UI.Color.Khaki);
-				self[k .. "label"]:SetText(k);
-
-				self[k .. "value"] = Turbine.UI.Label();
-				self[k .. "value"]:SetMouseVisible(false);
-				self[k .. "value"]:SetParent(self);
-				self[k .. "value"]:SetSize(76, LINE_HEIGHT);
-				self[k .. "value"]:SetPosition(ICON_SIZE + (SPACING * 3) + ((i - 1) * 76), (LINE_HEIGHT * 2) + SPACING);
-				self[k .. "value"]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
-				self[k .. "value"]:SetFontStyle(Turbine.UI.FontStyle.Outline);
-				self[k .. "value"]:SetText(self.data[k] or "n/a");
-			end
-		end
-	end
+	self.txtLabel = Turbine.UI.Label();
+	self.txtLabel:SetMouseVisible(false);
+	self.txtLabel:SetParent(self);
+	self.txtLabel:SetSize(320, LINE_HEIGHT * 3);
+	self.txtLabel:SetPosition(ICON_SIZE + (SPACING * 3), LINE_HEIGHT + SPACING + (SPACING / 2));
 
 	self.MouseEnter = function()
-		self:SetBackColor(Turbine.UI.Color(0.4, 1, 1, 1));
-		self:SetBackground("GuardioesDeArda/Lupa/Resources/item_bg.tga");
+		if (self.hoverHightlight) then
+			self:SetBackColor(Turbine.UI.Color(0.4, 1, 1, 1));
+			self:SetBackground("GuardioesDeArda/Lupa/Resources/item_bg.tga");
+		end
 	end
 
 	self.MouseLeave = function()
@@ -153,6 +91,16 @@ end
 function LupaItem:Layout()
 	self:SetBackColor(Turbine.UI.Color(0.10, 0, 0, 0));
 
+	if (self.auxControl ~= nil) then
+		self.auxControl:SetParent(nil);
+		self.auxControl = nil;
+	end
+
+	self.auxControl = Turbine.UI.Control();
+	self.auxControl:SetParent(self);
+	self.auxControl:SetSize(500, ROW_HEIGHT);
+	self.auxControl:SetPosition(ICON_SIZE + (SPACING * 3), 0);
+
 	if (self.instanceLabel) then
 		self.instanceLabel:SetSize(ICON_SIZE + (SPACING * 2), LINE_HEIGHT);
 	end
@@ -162,8 +110,92 @@ function LupaItem:Layout()
 	else
 		self:SetBackground(nil);
 	end
+
+	if (Instances[self.data.instance] and Instances[self.data.instance].thumbnail) then
+		self.icon:SetBackground(Instances[self.data.instance].thumbnail);
+	else
+		self.icon:SetBackground("GuardioesDeArda/Lupa/Resources/default_thumb.tga");
+	end
+
+	if (InstanceEnum[self.data.instance]) then
+		self.instanceLabel:SetText(self.data.instance);
+	else
+		self.instanceLabel:SetText("");
+	end
+
+	if (self.data.owner and InstanceEnum[self.data.instance]) then
+		self.instanceNameLabel:SetText(self.data.owner .. " - " .. Instances[self.data.instance].name);
+	else
+		self.instanceNameLabel:SetText(self.data.owner .. " - " .. Instances.default.name);
+	end
+
+	if (self.data.lffMessage ~= nil) then
+		self.txtLabel:SetFont(Turbine.UI.Lotro.Font.Verdana16);
+		self.txtLabel:SetFontStyle(Turbine.UI.FontStyle.Outline);
+		self.txtLabel:SetText(self.data.lffMessage);
+	else
+		self.txtLabel:SetText("");
+		-- count tiers roles level
+		for i, k in pairs({ "count", "tiers", "level", "roles" }) do
+			if (k == "roles" and self.data.roles) then
+				local left = ((i - 1) * 76);
+				local top = LINE_HEIGHT + SPACING;
+
+				for j, r in pairs(self.data.roles) do
+					self["role_icon_" .. k] = Turbine.UI.Control();
+					self["role_icon_" .. k]:SetMouseVisible(false);
+					self["role_icon_" .. k]:SetParent(self.auxControl);
+					self["role_icon_" .. k]:SetSize(16, 16);
+					self["role_icon_" .. k]:SetPosition(left, top);
+					self["role_icon_" .. k]:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+					self["role_icon_" .. k]:SetBackground(ClassRoleIcons[r] or ClassRoleIcons.any);
+
+					self["role_value_" .. k] = Turbine.UI.Label();
+					self["role_value_" .. k]:SetMouseVisible(false);
+					self["role_value_" .. k]:SetParent(self.auxControl);
+					self["role_value_" .. k]:SetSize(46, LINE_HEIGHT);
+					self["role_value_" .. k]:SetPosition(left + 16, top);
+					self["role_value_" .. k]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
+					self["role_value_" .. k]:SetFontStyle(Turbine.UI.FontStyle.Outline);
+					self["role_value_" .. k]:SetText(r);
+
+					if (j > 1 and j % 3 == 0) then
+						left = ((i - 1) * 76);
+						top = top + LINE_HEIGHT;
+					else
+						left = left + (16 + 46);
+					end
+				end
+			else
+				self["column_label_" .. k] = Turbine.UI.Label();
+				self["column_label_" .. k]:SetMouseVisible(false);
+				self["column_label_" .. k]:SetParent(self.auxControl);
+				self["column_label_" .. k]:SetSize(76, LINE_HEIGHT);
+				self["column_label_" .. k]:SetPosition(((i - 1) * 76), LINE_HEIGHT + SPACING);
+				self["column_label_" .. k]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
+				self["column_label_" .. k]:SetFontStyle(Turbine.UI.FontStyle.Outline);
+				self["column_label_" .. k]:SetForeColor(Turbine.UI.Color.Khaki);
+				self["column_label_" .. k]:SetText(k);
+
+				self["column_value_" .. k] = Turbine.UI.Label();
+				self["column_value_" .. k]:SetMouseVisible(false);
+				self["column_value_" .. k]:SetParent(self.auxControl);
+				self["column_value_" .. k]:SetSize(76, LINE_HEIGHT);
+				self["column_value_" .. k]:SetPosition(((i - 1) * 76), (LINE_HEIGHT * 2) + SPACING);
+				self["column_value_" .. k]:SetFont(Turbine.UI.Lotro.Font.Verdana16);
+				self["column_value_" .. k]:SetFontStyle(Turbine.UI.FontStyle.Outline);
+				self["column_value_" .. k]:SetText(self.data[k] or "n/a");
+			end
+		end
+	end
 end
 
 function LupaItem:SizeChanged()
 	self:Layout();
 end
+
+function LupaItem:SetHoverHighlight(hoverHightlight)
+	self.hoverHightlight = hoverHightlight;
+	self:Layout();
+end
+
