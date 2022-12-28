@@ -80,6 +80,7 @@ Instances = {
 
 ClassRoleIcons = {
     heal = 0x4101f895,
+    healer = 0x4101f895,
     heals = 0x4101f895,
     dps = 0x4101f893,
     tank = 0x4101f894,
