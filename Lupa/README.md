@@ -16,7 +16,8 @@ Para mais informações de como instalar plugins, acesse o https://lotrointerfac
 ## Usando
 Para abrir a janela principal, use o comando `/lupa` e espere aparecer um grupo para que você poça solicitar a entrada, apenas com um clique no botão que aparece ao lado.
 Fique atento, nem todas as chamadas irão aparecer, poruqe nem sempre é possível interpretar o que as pessoas digitam, a Lupa precisa de um padrão minimo para detectar que o que está sendo dito no canal /LFF realmente é uma chamada de grupo.
-[![Assista o vídeo no jogo](https://img.youtube.com/vi/2rIchFnULkg/0.jpg)](https://www.youtube.com/watch?v=2rIchFnULkg)
+
+[![Assista o vídeo no jogo](https://img.youtube.com/vi/UAAfcLYrznQ/0.jpg)](https://www.youtube.com/watch?v=UAAfcLYrznQ)
 
 ## Bugs
 Para informar um bug, fazer uma requisição de feature, ou alguma sugestão, sinta-se a vontade para criar uma [issue](https://github.com/joaoneto/GuardioesDeArda/issues).
